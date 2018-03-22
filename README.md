@@ -6,6 +6,13 @@ This API is intended to be the replacement for the backend of the website curren
 
 It allows you to specify a branching scenario and then have the generate pick a random set of results from that scenario for you.
 
+## Setting up
+
+1. Clone the repo: `git clone git@github.com:scenario-generator/api.git`
+2. Bundle the gems `bundle install`
+3. Run `rake db:setup` to have an empty database.
+4. Run `rails s` to start the server.
+
 ### Example
 
 You have a game that allows you to pick a hat, some shoes, a sword, and a shield. There are ten of each.
