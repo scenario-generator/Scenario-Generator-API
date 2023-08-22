@@ -11,7 +11,7 @@ class PrettyJsonResponse
       obj = JSON.parse(response.body)
       pretty_str = JSON.pretty_unparse(obj)
       response = [pretty_str]
-      headers['Content-Length'] = Rack::Utils.bytesize(pretty_str).to_s
+      headers['Content-Length'] = pretty_str.bytesize.to_s
     end
     [status, headers, response]
   end
