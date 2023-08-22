@@ -1,0 +1,14 @@
+<% if options.any? %>
+  <ul>
+    <% options.each do |option| %>
+      <li>
+        <%= link_to(option.text, option_path(option)) %>
+        -
+        <%= link_to("Edit", edit_option_path(option)) %>
+        -
+        <%= link_to("New Column", new_generator_column_path(generator_id: option.generator.id, parent: option.parent_selector_id)) %>
+        <%= render("columns/recursive_list", columns: option.columns) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

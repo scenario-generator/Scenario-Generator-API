@@ -20,8 +20,8 @@ group :test do
   gem 'database_cleaner', '~> 1.7'
   gem 'factory_bot_rails', '~> 4.11'
   gem 'faker', '~> 1.9'
-  gem 'rspec-rails', '~> 3.8'
   gem 'rspec_junit_formatter', '~> 0.4'
+  gem 'rspec-rails', '~> 3.8'
   gem 'shoulda-matchers', '~> 3.1'
 end
 
@@ -46,3 +46,5 @@ group :development do
   gem 'spring', '~> 1.7'
   gem 'web-console', '~> 2.3'
 end
+
+gem 'devise', '~> 4.9'

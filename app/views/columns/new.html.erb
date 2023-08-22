@@ -1,0 +1,66 @@
+<h1>New Column</h1>
+
+<%= form_for @column, as: :column, url: generator_columns_path do |f| %>
+  <%
+    [
+      :name,
+      :help,
+    ].each do |attr|
+  %>
+    <div>
+      <div><%= f.label attr %></div>
+      <div><%= f.text_field attr %></div>
+    </div>
+  <% end %>
+
+  <div>
+    <div><%= f.label :type %></div>
+    <div><%= f.select :type, [:"Column::Stats", :"Column::Options"] %></div>
+  </div>
+
+  <div>
+    <div><%= f.label :allow_duplicate_options %></div>
+    <div><%= f.check_box :allow_duplicate_options %></div>
+  </div>
+
+  <%
+    [
+      :chance_of_multiple,
+      :min,
+      :max,
+      :max_per,
+      :position,
+    ].each do |attr|
+  %>
+    <div>
+      <div><%= f.label attr %></div>
+      <div><%= f.number_field attr %></div>
+    </div>
+  <% end %>
+
+  <div>
+    <div><%= f.label :spoilers %></div>
+    <div><%= f.check_box :spoilers %></div>
+  </div>
+
+  <h2>Parent</h2>
+
+  <div>
+    <%= f.label :parent, "Parent" %>
+    <%=
+      generator = @column.generator
+      f.select(
+        :parent,
+        [
+          generator,
+          generator.owned_columns.map(&:options).flatten,
+        ].flatten.map { |parent_option| [parent_option.name_for_parent_selection, parent_option.parent_selector_id] },
+        selected: @column.parent&.parent_selector_id || params[:parent]
+      )
+    %>
+  </div>
+
+  <div>
+    <%= f.submit("Create Column") %>
+  </div>
+<% end %>

@@ -28,6 +28,8 @@ class Option < ApplicationRecord
   has_many :exclusion_sets, through: :option_exclusions
   has_many :excluded_options, through: :exclusion_sets, class_name: 'Option', source: :options
 
+  has_one :generator, through: :column
+
   alias parent column
 
   def self.process_child_columns(options)
@@ -69,6 +71,18 @@ class Option < ApplicationRecord
         filtered_options << option if (filtered_options & option.exclusions).empty?
       end
     end
+  end
+
+  def name
+    text
+  end
+
+  def name_for_parent_selection
+    "#{text} - #{self.class} for #{column.name}"
+  end
+
+  def parent_selector_id
+    "Option-#{id}"
   end
 
   # If an option appears in exclusions then it cannot be included in the same column as this one.

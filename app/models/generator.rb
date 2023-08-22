@@ -5,6 +5,7 @@
 # Table name: generators
 #
 #  id         :bigint(8)        not null, primary key
+#  active     :boolean          default(FALSE)
 #  ad_link    :string
 #  kind       :string
 #  name       :string
@@ -32,11 +33,22 @@ class Generator < ApplicationRecord
   has_many :columns, through: :column_parents, as: :parent, dependent: :destroy
   has_many :scenarios, dependent: :destroy
 
+  scope :alphabetical, -> { order(name: :asc) }
+  scope :active, -> { where(active: true) }
+
   def self.find_from_name(name)
     generator = friendly.find(name) || find_by(name: name)
     raise RuntimeError unless generator
 
     generator
+  end
+
+  def parent_selector_id
+    "Generator-#{id}"
+  end
+
+  def name_for_parent_selection
+    [name, self.class].join(" - ")
   end
 
   def should_generate_new_friendly_id?

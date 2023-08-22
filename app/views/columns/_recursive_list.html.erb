@@ -1,0 +1,14 @@
+<% if columns.any? %>
+  <ol>
+    <% columns.order(position: :asc).each do |column| %>
+      <li>
+        <%= link_to(column.name, column_path(column)) %>
+        -
+        <%= link_to("Edit", edit_column_path(column)) %>
+        -
+        <%= link_to("New Options", new_column_option_path(column_id: column.id)) %>
+        <%= render("options/recursive_list", options: column.options) %>
+      </li>
+    <% end %>
+  </ol>
+<% end %>

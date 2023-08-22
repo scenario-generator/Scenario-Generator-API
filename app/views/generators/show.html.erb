@@ -1,0 +1,27 @@
+<h1><%= @generator.name %></h1>
+
+<table>
+  <tbody>
+    <%
+      [
+        :name,
+        :slug,
+        :kind,
+        :active,
+        :ad_link,
+        :spoilers,
+        :created_at,
+        :user_id,
+      ].each do |attr|
+    %>
+      <tr>
+        <th><%= attr %></th>
+        <td><%= @generator.try(attr) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Columns && Options</h2>
+
+<%= render("columns/recursive_list", columns: @generator.columns) %>

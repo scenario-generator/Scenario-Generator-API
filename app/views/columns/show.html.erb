@@ -1,0 +1,43 @@
+<h1><%= link_to @column.generator.name, generator_path(@column.generator) %> - <%= @column.name %></h1>
+
+<%= link_to "Edit", edit_column_path(@column) %>
+
+<table>
+  <tbody>
+  <%
+    [
+      :name,
+      :type,
+      :help,
+      :min,
+      :max,
+      :max_per,
+      :allow_duplicate_options,
+      :chance_of_multiple,
+      :spoilers,
+      :position
+    ].each do |attr|
+  %>
+    <tr>
+      <th><%= attr %></th>
+      <td>
+        <%=
+          val = @column.try(attr)
+          val.nil? ? "-" : val
+        %>
+      </td>
+    </tr>
+  <% end %>
+
+    <tr>
+      <th>Parent</th>
+      <td><%= "#{@column.parent.name} - #{@column.parent.class}" %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Options</h2>
+
+<%= link_to("New Options", new_column_option_path(column_id: @column.id)) %>
+
+<%= render "options/recursive_list", options: @column.options %>

@@ -3,6 +3,7 @@
 # Table name: generators
 #
 #  id         :bigint(8)        not null, primary key
+#  active     :boolean          default(FALSE)
 #  ad_link    :string
 #  kind       :string
 #  name       :string

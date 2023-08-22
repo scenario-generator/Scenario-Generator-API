@@ -1,0 +1,22 @@
+<h1>Editing <%= @generator.name %></h1>
+
+<%= form_for @generator do |f| %>
+  <div>
+    <div><%= f.label :name %></div>
+    <div><%= f.text_field :name %></div>
+  </div>
+
+  <div>
+    <div><%= f.label :kind %></div>
+    <div><%= f.text_field :kind, value: "Challenge" %></div>
+  </div>
+
+  <div>
+    <div><%= f.label :active %></div>
+    <div><%= f.check_box :active %></div>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

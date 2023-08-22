@@ -1,0 +1,12 @@
+<h1>New Options for <%= @column.name %> - <%= @column.generator.name %></h1>
+
+<%= form_for :column, url: column_options_path(column_id: @column.id), method: :post do |f| %>
+  <div>
+    <%= f.label :options %>
+    <%= f.text_area :options, value: options_string_param %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

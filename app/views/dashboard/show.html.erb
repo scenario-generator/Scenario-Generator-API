@@ -1,0 +1,7 @@
+<h1>Welcome to the Scenario Generator API Interface</h1>
+
+<% if current_user.present? %>
+  <%= render "generators/list", generators: @generators %>
+<% else %>
+  <%= link_to "Sign in", new_user_session_path %>
+<% end %>

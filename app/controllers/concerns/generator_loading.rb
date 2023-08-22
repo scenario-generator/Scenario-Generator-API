@@ -5,7 +5,7 @@ module GeneratorLoading
 
   included do
     def generators
-      @generators ||= Generator.all.order(name: :asc)
+      @generators ||= Generator.alphabetical.active
     end
     alias_method :load_generators, :generators
 

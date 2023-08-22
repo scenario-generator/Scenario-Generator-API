@@ -29,6 +29,7 @@
 class Column < ApplicationRecord
   belongs_to :generator, inverse_of: :owned_columns
 
+  has_one :column_parent, dependent: :destroy
   has_many :column_parents, dependent: :destroy
   has_many :child_columns_parents, as: :parent, class_name: 'ColumnParent', dependent: :destroy
   has_many :columns, through: :child_columns_parents, as: :parent, dependent: :destroy
@@ -56,10 +57,27 @@ class Column < ApplicationRecord
 
   acts_as_list scope: :generator_id
 
-  before_save :set_generator
+  accepts_nested_attributes_for :options
+  accepts_nested_attributes_for :column_parent
+  accepts_nested_attributes_for :column_parents
+
+  after_save :set_generator
 
   def self.process_all
     all.flat_map(&:process)
+  end
+
+  def column_parent
+    column_parents.first || column_parents.build
+  end
+
+  def parent=(parent_selector_id)
+    parent_type, parent_id = parent_selector_id.split("-")
+    assign_attributes(column_parent_attributes: { parent_type: parent_type, parent_id: parent_id })
+  end
+
+  def parent
+    column_parent.parent
   end
 
   def parents
@@ -86,8 +104,6 @@ class Column < ApplicationRecord
   end
 
   def search_for_generator
-    return generator if generator
-
     parents.each do |parent|
       return parent if parent.is_a?(Generator)
 
@@ -100,7 +116,10 @@ class Column < ApplicationRecord
 
   def set_generator
     root_generator = search_for_generator
-    return self.generator = root_generator if root_generator.is_a?(Generator)
+    if root_generator.is_a?(Generator)
+      update_column(:generator_id, root_generator.id)
+      return
+    end
 
     raise 'No (recursive) parent of column is generator'
   end

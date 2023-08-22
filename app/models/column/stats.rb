@@ -74,7 +74,7 @@ class Column
       stats = base_stats
 
       points_to_assign.times do
-        assignable_stats = stats.select { |stat, value| value < max_per }.to_h.keys
+        assignable_stats = stats.select { |_stat, value| value < max_per }.to_h.keys
         return stats if assignable_stats.empty?
 
         stats[assignable_stats.sample] += 1
